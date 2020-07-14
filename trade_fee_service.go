@@ -19,14 +19,19 @@ func (s *TradeFeeService) Symbol(symbol string) *TradeFeeService {
 }
 
 // TradeFee define trade fee info
-type TradeFee struct {
+type Fee struct {
 	Symbol string  `json:"symbol"`
 	Maker  float64 `json:"maker"`
 	Taker  float64 `json:"taker"`
 }
 
+type TradeFeeResult struct {
+	Success  bool  `json:"success"`
+	TradeFee []Fee `json:"tradeFee"`
+}
+
 // Do send request
-func (s *TradeFeeService) Do(ctx context.Context, opts ...RequestOption) (res []*TradeFee, err error) {
+func (s *TradeFeeService) Do(ctx context.Context, opts ...RequestOption) (res []*TradeFeeResult, err error) {
 	r := &request{
 		method:   "GET",
 		endpoint: "/wapi/v3/tradeFee.html",
@@ -37,13 +42,13 @@ func (s *TradeFeeService) Do(ctx context.Context, opts ...RequestOption) (res []
 	}
 	data, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
-		return []*TradeFee{}, err
+		return []*TradeFeeResult{}, err
 	}
 	data = common.ToJSONList(data)
-	res = make([]*TradeFee, 0)
+	res = make([]*TradeFeeResult, 0)
 	err = json.Unmarshal(data, &res)
 	if err != nil {
-		return []*TradeFee{}, err
+		return []*TradeFeeResult{}, err
 	}
 	return res, nil
 }
