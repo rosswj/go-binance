@@ -30,7 +30,7 @@ func (s *TradeFeeService) Do(ctx context.Context, opts ...RequestOption) (res []
 	r := &request{
 		method:   "GET",
 		endpoint: "/wapi/v3/tradeFee.html",
-		secType:  secTypeSigned,
+		secType:  secTypeAPIKey,
 	}
 	if s.symbol != nil {
 		r.setParam("symbol", *s.symbol)
