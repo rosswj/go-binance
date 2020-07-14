@@ -7,13 +7,13 @@ import (
 )
 
 // Fetch trade fee, values
-type TradeFeeTickersService struct {
+type TradeFeeService struct {
 	c      *Client
 	symbol *string
 }
 
 // Symbol set symbol
-func (s *TradeFeeTickersService) Symbol(symbol string) *TradeFeeTickersService {
+func (s *TradeFeeService) Symbol(symbol string) *TradeFeeService {
 	s.symbol = &symbol
 	return s
 }
@@ -26,7 +26,7 @@ type TradeFee struct {
 }
 
 // Do send request
-func (s *TradeFeeTickersService) Do(ctx context.Context, opts ...RequestOption) (res []*TradeFee, err error) {
+func (s *TradeFeeService) Do(ctx context.Context, opts ...RequestOption) (res []*TradeFee, err error) {
 	r := &request{
 		method:   "GET",
 		endpoint: "/wapi/v3/tradeFee.html",
